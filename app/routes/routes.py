@@ -12,10 +12,7 @@ routes_bp = Blueprint(
 
 @routes_bp.route('/api/fooditems')
 def get_fooditems():
-    df = pd.read_csv('fastfood.csv', usecols=["restaurant", "item", "calories"])
-    json_data = df.values.tolist()
-    data = {'data': df.to_dict(orient='records')}
-    return jsonify(data)
+    return {'data': [fooditem.to_dict() for fooditem in Fooditems.query]}
 
 
 @routes_bp.route('/')
@@ -47,3 +44,4 @@ def parse_csv(file_path):
         )
         db.session.add(fooditem)
     db.session.commit()
+
